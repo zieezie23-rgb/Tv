@@ -1,0 +1,21 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f"><link rel="manifest" href="manifest.json"><title>TV Online Indonesia</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#07111f;color:#eef5ff}header{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#0b1d35,#102c4c);padding:14px 16px;box-shadow:0 3px 18px #0008}h1{font-size:22px;margin:0 0 4px}.sub{font-size:12px;opacity:.75}main{max-width:1100px;margin:auto;padding:14px}.player{background:#000;border-radius:16px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 8px 28px #0008}iframe{width:100%;height:100%;border:0}.notice{font-size:12px;opacity:.75;padding:9px 2px}.actions{display:flex;gap:8px;margin:8px 0 16px}button,.open{border:0;border-radius:10px;padding:10px 13px;background:#173a5f;color:#fff;text-decoration:none;font-weight:700;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}.card{background:#10233a;border:1px solid #21415f;border-radius:14px;padding:12px;cursor:pointer;min-height:94px}.card.active{outline:2px solid #38a8ff}.logo{width:42px;height:42px;border-radius:10px;background:#07111f;display:grid;place-items:center;font-weight:900;margin-bottom:8px}.name{font-weight:800;font-size:14px}.type{font-size:11px;opacity:.65;margin-top:3px}footer{text-align:center;opacity:.5;font-size:11px;padding:22px}@media(max-width:500px){main{padding:10px}.grid{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><header><h1>📺 TV Online Indonesia</h1><div class="sub">Live streaming dari sumber resmi</div></header><main><section class="player"><iframe id="player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></section><div class="notice" id="status"></div><div class="actions"><a class="open" id="official" target="_blank" rel="noopener">Buka sumber resmi ↗</a><button id="install" hidden>Pasang Aplikasi</button></div><h2 style="font-size:18px">Channel Live</h2><div class="grid" id="channels"></div></main><footer>TV Online Indonesia • Sumber siaran resmi</footer><script>
+const channels=[
+["SCTV","Vidio","https://www.vidio.com/micro/live/204-sctv"],
+["Indosiar","Vidio","https://www.vidio.com/micro/live/205-indosiar"],
+["TRANS TV","Vidio","https://www.vidio.com/micro/live/733-trans-tv-stream"],
+["TRANS7","Vidio","https://www.vidio.com/micro/live/734-trans7"],
+["Metro TV","YouTube","https://www.youtube.com/watch?v=oUYnZv_G82Q","https://www.youtube.com/embed/oUYnZv_G82Q?autoplay=1"],
+["Kompas TV","Vidio","https://www.vidio.com/live"],
+["TVRI","Vidio","https://www.vidio.com/live"],
+["BeritaSatu","Vidio","https://www.vidio.com/live"],
+["Garuda TV","Vidio","https://www.vidio.com/live"],
+["TVOne","Vidio","https://www.vidio.com/live"]];
+const p=document.getElementById("player"),s=document.getElementById("status"),o=document.getElementById("official"),box=document.getElementById("channels");
+function choose(c,e){document.querySelectorAll(".card").forEach(x=>x.classList.remove("active"));e.classList.add("active");o.href=c[2];p.src=c[3]||c[2];s.textContent=c[0]+" • "+c[1]+" • LIVE resmi";scrollTo({top:0,behavior:"smooth"})}
+channels.forEach(c=>{let e=document.createElement("div");e.className="card";e.innerHTML=`<div class="logo">${c[0].slice(0,2)}</div><div class="name">${c[0]}</div><div class="type">${c[1]} • LIVE</div>`;e.onclick=()=>choose(c,e);box.appendChild(e)});
+choose(channels[0],box.firstChild);
+if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js");
+let deferred;addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;install.hidden=false});install.onclick=async()=>{if(deferred){await deferred.prompt();deferred=null;install.hidden=true}};
+</script></body></html>
